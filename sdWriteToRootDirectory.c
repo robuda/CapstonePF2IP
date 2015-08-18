@@ -1,3 +1,26 @@
+int* convertDataArrayToBytes(int* dataArray){
+	char dataBytes[512];
+        int arrayCounter;
+        for(arrayCounter = 0; arrayCounter < 128; arrayCounter += 4){
+                dataBytes[arrayCounter] = ((dataArray[arrayCounter] & 0xFF000000) >> 24);
+                dataBytes[arrayCounter + 1] = ((dataArray[arrayCounter] & 0x00FF0000) >> 16);
+                dataBytes[arrayCounter + 2] = ((dataArray[arrayCounter] & 0x0000FF00) >> 8);
+                dataBytes[arrayCounter + 3] = ((dataArray[arrayCounter] & 0x000000FF));
+        }
+	return dataBytes;
+}
+
+int getFileSize(int* dataBytes){
+	int arrayCounter, fileSize = 0;
+        for(arrayCounter = 0; arrayCounter < 512; arrayCounter++){
+                if(dataBytes[arrayCounter] == 0){
+                        fileSize = arrayCounter;
+                        break;
+                }
+        }
+	return fileSize;
+}
+
 // Write to Root Directory of SD Card
 
 void writeValuesToSDCard(float activePower, float reactivePower){
